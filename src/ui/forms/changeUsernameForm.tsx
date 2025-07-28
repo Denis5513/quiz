@@ -1,16 +1,13 @@
 "use client";
 
+import { changeUsername } from "@/actions/userData";
+import { authErrorHandler } from "@/lib/actionErrorHandler";
 import { ActionReturn } from "@/types/action_return";
-import { redirect } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
 
 export default function ChangeUsernameForm({
-	changeNameAction,
 	currentName,
 }: {
-	changeNameAction: (
-		newName: string,
-	) => Promise<ActionReturn<{ newName: string }>>;
 	currentName: string;
 }) {
 	const [username, setUsername] = useState<string>("");
@@ -18,7 +15,7 @@ export default function ChangeUsernameForm({
 	const [formState, formAction, isPending] = useActionState<ActionReturn<{
 		newName: string;
 	}> | null>(async () => {
-		const result = await changeNameAction(username);
+		const result = await changeUsername(username);
 		return result;
 	}, null);
 
@@ -26,10 +23,7 @@ export default function ChangeUsernameForm({
 		if (formState?.success === false) {
 			switch (formState.error) {
 				case "AUTH_ERROR":
-					alert(
-						"Похоже ваша сессия истекла. Переходим на страницу входа.",
-					);
-					redirect("/login");
+					authErrorHandler();
 				case "NAME_COLLISION":
 					setErrorMessage("Это имя уже используется");
 					break;

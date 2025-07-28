@@ -13,7 +13,6 @@ export default async function Page() {
 					<p>Вы вошли как: {session.username}</p>
 					<p>Изменение имени:</p>
 					<ChangeUsernameForm
-						changeNameAction={changeUsername}
 						currentName={session.username}
 					></ChangeUsernameForm>
 				</div>

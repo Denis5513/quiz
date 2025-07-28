@@ -8,10 +8,9 @@ import {
 } from "@/types/quiz";
 import { useEffect, useRef, useState } from "react";
 import * as ac from "@/actions/quiz";
-import { redirect } from "next/navigation";
-import urls from "@/config/urls";
-import { ClientQuizError, TypedError } from "@/lib/error";
+import { ClientQuizError } from "@/lib/error";
 import { BadActionReturn, GoodActionReturn } from "@/types/action_return";
+import { authErrorHandler } from "@/lib/actionErrorHandler";
 
 interface QuizState {
 	isPending: boolean;
@@ -32,13 +31,10 @@ interface QuizState {
 function handleErr(res: BadActionReturn) {
 	switch (res.error) {
 		case "AUTH_ERROR":
-			redirect(urls.login);
+			authErrorHandler();
 
 		default:
-			throw new TypedError(
-				"CLIENT_ERROR",
-				"Uncaught server action error",
-			);
+			console.error(`Internal server error: ${res.error}`);
 	}
 }
 
@@ -131,9 +127,6 @@ export default function useQuiz(quizId: number, userId: number): QuizState {
 				setStatus(() => "question");
 				setQuestion(() => questions.current![currentQuestion.current]);
 			})
-			.catch((err) => {
-				throw new ClientQuizError(err?.message);
-			})
 			.finally(() => setPenging(() => false));
 	}
 
@@ -157,9 +150,6 @@ export default function useQuiz(quizId: number, userId: number): QuizState {
 
 				setStatus(() => "question");
 				setQuestion(() => questions.current![currentQuestion.current]);
-			})
-			.catch((err) => {
-				throw new ClientQuizError(err?.message);
 			})
 			.finally(() => setPenging(() => false));
 	}
@@ -195,9 +185,6 @@ export default function useQuiz(quizId: number, userId: number): QuizState {
 					currentResult.current.is_finished = true;
 					currentResult.current.result = `${scoreInf.right} / ${scoreInf.answers}`;
 				}
-			})
-			.catch((err) => {
-				throw new ClientQuizError(err?.message);
 			})
 			.finally(() => setPenging(() => false));
 	}

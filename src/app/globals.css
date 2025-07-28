@@ -1,1 +1,47 @@
-/* @import "tailwindcss"; */
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --font-noto-sans: "Noto Sans", sans-serif;
+  --font-open-sans: "Open Sans", sans-serif;
+}
+
+.font-noto-sans {
+  font-family: var(--font-noto-sans);
+}
+.font-open-sans {
+  font-family: var(--font-open-sans);
+}
+
+@theme {
+  --color-main: #5856d6;
+  --color-hover: rgb(70, 70, 200);
+  --color-secondary: rgba(88, 86, 214, 0.5);
+  --color-main-red: #ef4444;
+  --color-secondary-red: #fef2f2;
+  --color-main-bg: #e6ebff;
+  --color-form-main: white;
+  --color-form-secondary: #cbd5e1;
+}
+
+@theme {
+  --breakpoint-3xl: 1920px;
+  --breakpoint-2xl: 1600px;
+}
+
+@layer utilities {
+  .px-full-page-block {
+    @apply px-[50px] 3xl:px-[100px];
+  }
+
+  .translate-x-cancel-px {
+    @apply translate-x-[-50px] 3xl:translate-x-[-100px];
+  }
+
+  .before-translate-x-cancel-px {
+    @apply before:translate-x-[-50px] 3xl:before:translate-x-[-100px];
+  }
+}

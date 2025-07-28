@@ -1,10 +1,18 @@
+import urls from "@/config/urls";
 import RegisterForm from "@/ui/forms/registerForm";
+import { getSession } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { AuthPageInfo } from "@/ui/general";
 
-export default function Page() {
+export default async function Page() {
+	const session = await getSession();
+	if (session.isLogged) {
+		redirect(urls.home);
+	}
+
 	return (
-		<div>
-			<h1>Это страница регистрации</h1>
+		<AuthPageInfo width={930}>
 			<RegisterForm />
-		</div>
+		</AuthPageInfo>
 	);
 }
