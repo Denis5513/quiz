@@ -32,7 +32,7 @@ export default function RootLayout({
 				className={`${notoSans.variable} ${openSans.variable} relative font-open-sans max-w-[1920px] mx-auto`}
 			>
 				<Header
-					className={`w-[930px] mx-auto relative z-2
+					className={`w-[1030px] mx-auto relative z-2
 								2xl:w-full `}
 				></Header>
 				{children}

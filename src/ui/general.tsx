@@ -63,11 +63,11 @@ export function AuthPageInfo({
 						2xl:flex-row`}
 		>
 			<div
-				className={`relative h-[100%] before:absolute before:z-0 before:block before:content-[''] before-translate-x-cancel-px before:translate-y-[-74px] before:w-[1030px] before:h-[100vh] before:bg-main-bg
+				className={`relative h-[100%] before:absolute before:z-0 before:block before:content-[''] before-translate-x-cancel-px before:translate-y-[-74px] before:w-[1030px] before:h-[calc(100%_+_74px)] before:bg-main-bg
 							`}
 			>
 				<div
-					className={`relative w-[${width}px] z-1 mt-[86px] text-main`}
+					className={`relative w-[${width ?? "-"}px] z-1 mt-[86px] text-main`}
 				>
 					<h1 className="w-[645px] font-bold text-[40px] leading-[52px]">
 						Узнайте больше нового о себе и своих интересах
