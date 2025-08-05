@@ -63,8 +63,7 @@ export function AuthPageInfo({
 						2xl:flex-row`}
 		>
 			<div
-				className={`relative h-[100%] before:absolute before:z-0 before:block before:content-[''] before-translate-x-cancel-px before:translate-y-[-74px] before:w-[1030px] before:h-[calc(100%_+_74px)] before:bg-main-bg
-							`}
+				className={`relative h-[100%] before:absolute before:z-0 before:block before:content-[''] before-translate-x-cancel-px before:translate-y-[-74px] before:w-[1030px] before:h-[calc(100%_+_74px)] before:bg-main-bg`}
 			>
 				<div
 					className={`relative w-[${width ?? "-"}px] z-1 mt-[86px] text-main`}
@@ -92,5 +91,6 @@ export function AuthPageInfo({
 	);
 }
 
-/* 	before:left-1/2 before:-translate-x-1/2
-	2xl:before:left-[-100px] 2xl:before:-translate-x-0 */
+export function Footer() {
+	return <div className="mx-auto px-full-page-block bd-red"></div>;
+}
