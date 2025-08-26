@@ -11,7 +11,7 @@ export default async function Page() {
 	}
 
 	return (
-		<AuthPageInfo width={930}>
+		<AuthPageInfo>
 			<RegisterForm />
 		</AuthPageInfo>
 	);

@@ -4,7 +4,7 @@ import { login } from "@/actions/auth";
 import urls from "@/config/urls";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ActionReturn } from "@/types/action_return";
+import { ActionReturn } from "@/types/actionReturn";
 import { AuthForm } from "./authForm";
 
 function processActionResult(

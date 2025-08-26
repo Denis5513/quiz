@@ -22,7 +22,6 @@ const pool = new Pool({
 
 export async function connect(): Promise<PoolClient> {
 	try {
-		// console.log("Новое соединение с бд");
 		return await pool.connect();
 	} catch (err) {
 		throw new DbError("DB connection error");
@@ -30,7 +29,6 @@ export async function connect(): Promise<PoolClient> {
 }
 
 export async function disconnect(client: PoolClient): Promise<void> {
-	// console.log("Соединение закрыто");
 	return await client.release();
 }
 
@@ -358,6 +356,23 @@ export const userAnswerIsExist = dbConnectChecked(
 		);
 
 		return res.rowCount !== 0;
+	},
+	connect,
+	disconnect,
+);
+
+export const getQuiz = dbConnectChecked(
+	async (client, quizId: number) => {
+		const res = await client.query<Quiz>(
+			`SELECT * FROM quizzes WHERE id = $1`,
+			[quizId],
+		);
+
+		if (!res.rowCount || res.rowCount === 0) {
+			throw new QuizNotFoundError();
+		}
+
+		return res.rows[0];
 	},
 	connect,
 	disconnect,

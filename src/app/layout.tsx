@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/ui/header";
-
-import { Noto_Sans, Open_Sans } from "next/font/google";
+import { Noto_Sans, Open_Sans, Inter } from "next/font/google";
+import ConditionalFooter from "@/ui/conditionalFooter";
 
 export const metadata: Metadata = {
 	title: "Create Next App",
@@ -11,14 +11,20 @@ export const metadata: Metadata = {
 
 const notoSans = Noto_Sans({
 	subsets: ["latin"],
-	weight: ["100", "400", "600", "700"], // thin, regular, semibold, bold
+	weight: ["100", "400", "600", "700"],
 	variable: "--font-noto-sans",
 });
 
 const openSans = Open_Sans({
 	subsets: ["latin"],
-	weight: ["400", "600", "700"], // regular, semibold, bold
+	weight: ["400", "600", "700"],
 	variable: "--font-open-sans",
+});
+
+const inter = Inter({
+	subsets: ["latin"],
+	weight: ["100", "400", "600", "700"],
+	variable: "--font-inter",
 });
 
 export default function RootLayout({
@@ -29,18 +35,17 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body
-				className={`${notoSans.variable} ${openSans.variable} relative font-open-sans max-w-[1920px] mx-auto`}
+				className={`${notoSans.variable} ${openSans.variable} ${inter.variable}
+							flex flex-col
+							font-open-sans max-w-[1030px] min-h-[100vh] mx-auto px-page
+							2xl:max-w-[1920px] relative`}
 			>
-				<Header
-					className={`w-[1030px] mx-auto relative z-2
-								2xl:w-full `}
-				></Header>
-				{children}
+				<Header className={`w-full mx-auto relative z-2`} />
+				<main className="mb-[50px] grow-1 flex flex-col items-center">
+					{children}
+				</main>
+				<ConditionalFooter />
 			</body>
 		</html>
 	);
 }
-
-/*
-	px-[50px] py-[16px] 3xl:px-[100px]
-*/

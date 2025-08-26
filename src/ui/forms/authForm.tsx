@@ -1,6 +1,6 @@
 "use client";
 
-import { ActionReturn } from "@/types/action_return";
+import { ActionReturn } from "@/types/actionReturn";
 import { useState, useActionState, useEffect } from "react";
 import { ErrorMessage, FormInput, Button } from "../general";
 
@@ -72,7 +72,13 @@ export function AuthForm(props: AuthFormProps) {
 
 			<Button
 				type="submit"
-				disabled={isPending || username === "" || password === ""}
+				disabled={
+					isPending ||
+					errorMessage !== null ||
+					username === "" ||
+					password === ""
+				}
+				className="mt-[40px]"
 			>
 				{props.submitButtonTitle}
 			</Button>

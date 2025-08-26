@@ -1,8 +1,8 @@
 import { checkQuizIsExist } from "@/actions/quiz";
-import urls from "@/config/urls";
 import { getSession } from "@/lib/auth";
 import { notFound, redirect } from "next/navigation";
 import Quiz from "@/ui/quiz/quiz";
+import urls from "@/config/urls";
 
 export default async function Page({
 	params,
@@ -11,7 +11,7 @@ export default async function Page({
 }) {
 	const session = await getSession();
 	if (!session.isLogged) {
-		redirect(urls.home);
+		redirect(urls.login);
 	}
 
 	const id = Number((await params).id);
@@ -25,10 +25,12 @@ export default async function Page({
 	}
 
 	return (
-		<div>
-			<h1>Это страница квиза {id}</h1>
-
-			<Quiz quizId={id} userId={session.userId}></Quiz>
+		<div className="w-full my-auto">
+			<Quiz
+				quizId={id}
+				userId={session.userId}
+				className="mx-auto"
+			></Quiz>
 		</div>
 	);
 }

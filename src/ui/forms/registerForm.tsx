@@ -2,7 +2,7 @@
 
 import { createUser } from "@/actions/userData";
 import urls from "@/config/urls";
-import { ActionReturn } from "@/types/action_return";
+import { ActionReturn } from "@/types/actionReturn";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { AuthForm } from "./authForm";

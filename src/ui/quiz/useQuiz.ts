@@ -2,6 +2,7 @@
 
 import {
 	Question,
+	Quiz,
 	Result,
 	UserAnswer,
 	UserAnswerFromClient,
@@ -9,10 +10,10 @@ import {
 import { useEffect, useRef, useState } from "react";
 import * as ac from "@/actions/quiz";
 import { ClientQuizError } from "@/lib/error";
-import { BadActionReturn, GoodActionReturn } from "@/types/action_return";
-import { authErrorHandler } from "@/lib/actionErrorHandler";
+import { BadActionReturn, GoodActionReturn } from "@/types/actionReturn";
+import { authErrorHandler } from "@/lib/actionErrorHandlers";
 
-interface QuizState {
+export interface QuizInterface {
 	isPending: boolean;
 	status: "start" | "question" | "result";
 	question: Question | null;
@@ -21,6 +22,11 @@ interface QuizState {
 		isCorrect: boolean;
 	} | null;
 	currentResult: Result | null;
+	questionInfo: {
+		questionsNumber: number | undefined;
+		currentQuestion: number;
+	};
+	quizInfo: Quiz | null;
 
 	startNewQuiz: () => void;
 	continueQuiz: () => void;
@@ -58,18 +64,28 @@ function assertResult(result: Result | null): asserts result is Result {
 	}
 }
 
-export default function useQuiz(quizId: number, userId: number): QuizState {
-	const [status, setStatus] = useState<QuizState["status"]>("start");
-	const [isPending, setPenging] = useState<QuizState["isPending"]>(true);
-	const [answerInfo, setAnswerInfo] = useState<QuizState["answerInfo"]>(null);
+export default function useQuiz(quizId: number, userId: number): QuizInterface {
+	const [status, setStatus] = useState<QuizInterface["status"]>("start");
+	const [isPending, setPenging] = useState<QuizInterface["isPending"]>(true);
+	const [answerInfo, setAnswerInfo] =
+		useState<QuizInterface["answerInfo"]>(null);
 	const [question, setQuestion] = useState<Question | null>(null);
 	const currentResult = useRef<Result | null>(null);
 
 	const currentQuestion = useRef<number>(0);
 	const questions = useRef<Question[] | null>(null);
 	const userAnswers = useRef<UserAnswer[] | null>(null);
+	const quizInfo = useRef<Quiz | null>(null);
 
 	async function initQuizState() {
+		setPenging(() => true);
+		const quizInfoRes = await ac.getQuiz(quizId);
+		if (quizInfoRes.success === false) {
+			handleErr(quizInfoRes);
+			return;
+		}
+
+		quizInfo.current = quizInfoRes.result;
 		const res = await ac.getResult(quizId);
 		if (res.success === false) {
 			handleErr(res);
@@ -107,6 +123,7 @@ export default function useQuiz(quizId: number, userId: number): QuizState {
 
 	function startNewQuiz() {
 		setPenging(() => true);
+		setAnswerInfo(() => null);
 		ac.startNewQuiz(quizId, currentResult.current?.id)
 			.then((res) => {
 				if (res.success === false) {
@@ -214,6 +231,11 @@ export default function useQuiz(quizId: number, userId: number): QuizState {
 		currentResult: currentResult.current,
 		isPending,
 		answerInfo,
+		questionInfo: {
+			currentQuestion: currentQuestion.current,
+			questionsNumber: questions.current?.length,
+		},
+		quizInfo: quizInfo.current,
 		answer,
 		continueQuiz,
 		next,
