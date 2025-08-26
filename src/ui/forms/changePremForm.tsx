@@ -1,7 +1,7 @@
 "use client";
 
 import { changePremium } from "@/actions/userData";
-import { ActionReturn } from "@/types/action_return";
+import { ActionReturn } from "@/types/actionReturn";
 import { redirect } from "next/navigation";
 import { useActionState, useEffect } from "react";
 

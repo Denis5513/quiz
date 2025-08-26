@@ -1,13 +1,13 @@
 "use server";
 
 import * as db from "@/lib/database";
-import { createAction } from "@/lib/wrappers";
+import { createAction, createSafeAction, LoggedSession } from "@/lib/wrappers";
 import { IronSession } from "iron-session";
-import { SessionDataLogged } from "@/types/session";
 import { AuthError, TypedError } from "@/lib/error";
 import { getSession } from "@/lib/auth";
+import { SessionDataLogged } from "@/types/session";
 
-export const changePremium = createAction(async () => {
+export const changePremium = createSafeAction(async () => {
 	const session = await getSession();
 	if (!session.isLogged) {
 		throw new AuthError();
@@ -19,13 +19,8 @@ export const changePremium = createAction(async () => {
 	await session.save();
 }, ["AUTH_ERROR"]);
 
-export const changeUsername = createAction(
-	async (newName: string) => {
-		const session = await getSession();
-		if (!session.isLogged) {
-			throw new AuthError();
-		}
-
+export const changeUsername = createSafeAction(
+	async (newName: string, session: LoggedSession) => {
 		const client = await db.connect();
 
 		try {
@@ -51,7 +46,7 @@ export const changeUsername = createAction(
 			await db.disconnect(client);
 		}
 	},
-	["AUTH_ERROR", "NAME_COLLISION"],
+	["NAME_COLLISION"],
 );
 
 export const createUser = createAction(

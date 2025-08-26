@@ -3,7 +3,7 @@
 import { logout } from "@/actions/auth";
 import { redirect } from "next/navigation";
 
-export function LogoutForm() {
+export function LogoutForm({ className }: { className?: string }) {
 	return (
 		<form
 			action={async () => {
@@ -11,7 +11,9 @@ export function LogoutForm() {
 				redirect("/");
 			}}
 		>
-			<button>Выход</button>
+			<button className={"cursor-pointer " + (className ?? "")}>
+				Выход
+			</button>
 		</form>
 	);
 }

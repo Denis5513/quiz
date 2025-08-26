@@ -1,79 +1,86 @@
 "use client";
 
-import { ActionReturn } from "@/types/action_return";
-import { redirect } from "next/navigation";
+import { changeUsername } from "@/actions/userData";
+import { authErrorHandler } from "@/lib/actionErrorHandlers";
+import { ActionReturn } from "@/types/actionReturn";
 import { useActionState, useEffect, useState } from "react";
+import { Button, FormInput, RoundedVioletBlock } from "../general";
 
 export default function ChangeUsernameForm({
-	changeNameAction,
 	currentName,
+	className,
 }: {
-	changeNameAction: (
-		newName: string,
-	) => Promise<ActionReturn<{ newName: string }>>;
 	currentName: string;
+	className?: string;
 }) {
-	const [username, setUsername] = useState<string>("");
+	const [username, setUsername] = useState<string>(currentName);
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 	const [formState, formAction, isPending] = useActionState<ActionReturn<{
 		newName: string;
 	}> | null>(async () => {
-		const result = await changeNameAction(username);
+		if (currentName === username) {
+			return { success: false, error: "CLIENT_UNCHANGED_NAME" };
+		}
+
+		const result = await changeUsername(username);
 		return result;
 	}, null);
 
 	useEffect(() => {
-		if (formState?.success === false) {
-			switch (formState.error) {
-				case "AUTH_ERROR":
-					alert(
-						"Похоже ваша сессия истекла. Переходим на страницу входа.",
-					);
-					redirect("/login");
-				case "NAME_COLLISION":
-					setErrorMessage("Это имя уже используется");
-					break;
-			}
+		if (formState === null || formState.success === true) {
+			setErrorMessage(() => null);
+			return;
+		}
+
+		switch (formState.error) {
+			case "AUTH_ERROR":
+				authErrorHandler();
+
+			case "NAME_COLLISION":
+				setErrorMessage(() => "Это имя уже используется");
+				break;
+
+			case "CLIENT_UNCHANGED_NAME":
+				setErrorMessage(() => "Новое имя должно отличаться от старого");
+				break;
 		}
 	}, [formState]);
 
 	return (
-		<div>
-			<form
-				action={() => {
-					if (username !== currentName) {
-						formAction();
-					} else {
-						setErrorMessage(
-							"Новое имя должно отличатся от старого",
-						);
-					}
-				}}
+		<form action={formAction}>
+			<RoundedVioletBlock
+				className={
+					`w-[360px] h-[460px] p-[32px] flex flex-col items-center ` +
+					(className ?? "")
+				}
 			>
-				<p>Введите ваше новое имя: </p>
-				<input
-					type="text"
-					placeholder="username"
+				<h1 className="text-[24px] font-bold font-inter">
+					Ваш профиль
+				</h1>
+
+				<FormInput
+					className="mt-[35px] bg-white text-center"
 					value={username}
 					onChange={(e) => {
-						setUsername(e.target.value);
-						setErrorMessage(null);
+						setUsername(() => e.target.value);
+						setErrorMessage(() => null);
 					}}
-					required
 				/>
-				<button type="submit" disabled={isPending}>
-					Изменить
-				</button>
-			</form>
-			{isPending && <p>Загрузка...</p>}
-			{!isPending && formState && formState.success && (
-				<p style={{ color: "green" }}>
-					Ваше имя успешно заменено на {formState.result.newName}!
+
+				<p
+					className={`${errorMessage === null ? "text-secondary-text" : "text-main-red"} text-[16px] font-inter`}
+				>
+					{errorMessage === null ? "Измените ваше имя" : errorMessage}
 				</p>
-			)}
-			{!isPending && errorMessage && (
-				<p style={{ color: "red" }}>{errorMessage}</p>
-			)}
-		</div>
+
+				<Button
+					className="mt-auto"
+					type="submit"
+					disabled={isPending || errorMessage !== null}
+				>
+					Сохранить
+				</Button>
+			</RoundedVioletBlock>
+		</form>
 	);
 }

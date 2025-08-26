@@ -1,56 +1,43 @@
 "use server";
 
-import { createAction } from "@/lib/wrappers";
+import { createSafeAction } from "@/lib/wrappers";
 import * as db from "@/lib/database";
-import { AuthError, TypedError } from "@/lib/error";
-import { getSession } from "@/lib/auth";
+import { TypedError } from "@/lib/error";
 import { UserAnswer, UserAnswerFromClient } from "@/types/quiz";
+import { SessionDataLogged } from "@/types/session";
 
-export const getAllQuizzes = createAction(async () => {
-	const session = await getSession();
-	if (!session.isLogged) {
-		throw new AuthError();
-	}
-
+export const getAllQuizzes = createSafeAction(async () => {
 	const quizzes = await db.getAllQuizzes(null);
 	return {
 		quizzes,
 	};
-}, ["AUTH_ERROR"]);
+});
 
-export const getAllQuestions = createAction(
-	async (quizId: number) => {
-		const session = await getSession();
-		if (!session.isLogged) {
-			throw new AuthError();
-		}
-
+export const getAllQuestions = createSafeAction(
+	async (quizId: number, session: SessionDataLogged) => {
 		const questions = await db.getAllQuestions(null, quizId);
 		return {
 			questions,
 		};
 	},
-	["NOT_FOUND", "AUTH_ERROR"],
+	["NOT_FOUND"],
 );
 
-export const checkQuizIsExist = createAction(
-	async (quizId: number) => {
+export const checkQuizIsExist = createSafeAction(
+	async (quizId: number, session: SessionDataLogged) => {
 		const isExist = await db.checkQuizIsExist(null, quizId);
-
 		return {
 			isExist,
 		};
 	},
-	["AUTH_ERROR"],
 );
 
-export const startNewQuiz = createAction(
-	async (quizId: number, oldResultId?: number) => {
-		const session = await getSession();
-		if (!session.isLogged) {
-			throw new AuthError();
-		}
-
+export const startNewQuiz = createSafeAction(
+	async (
+		quizId: number,
+		oldResultId: number | undefined,
+		session: SessionDataLogged,
+	) => {
 		const client = await db.connect();
 		try {
 			if (oldResultId !== undefined) {
@@ -71,28 +58,16 @@ export const startNewQuiz = createAction(
 			await db.disconnect(client);
 		}
 	},
-	["AuthError"],
 );
 
-export const checkResultExist = createAction(
-	async (quizId: number) => {
-		const session = await getSession();
-		if (!session.isLogged) {
-			throw new AuthError();
-		}
-
+export const checkResultExist = createSafeAction(
+	async (quizId: number, session: SessionDataLogged) => {
 		return await db.getResult(null, session.userId, quizId);
 	},
-	["AUTH_ERROR"],
 );
 
-export const continueQuiz = createAction(
-	async (quizId: number, resultId: number) => {
-		const session = await getSession();
-		if (!session.isLogged) {
-			throw new AuthError();
-		}
-
+export const continueQuiz = createSafeAction(
+	async (quizId: number, resultId: number, session: SessionDataLogged) => {
 		const client = await db.connect();
 		try {
 			const userAnswers = await db.getUserAnswers(client, resultId);
@@ -109,16 +84,10 @@ export const continueQuiz = createAction(
 			await db.disconnect(client);
 		}
 	},
-	["AUTH_ERROR"],
 );
 
-export const answer = createAction(
-	async (ans: UserAnswerFromClient) => {
-		const session = await getSession();
-		if (!session.isLogged) {
-			throw new AuthError();
-		}
-
+export const answer = createSafeAction(
+	async (ans: UserAnswerFromClient, session: SessionDataLogged) => {
 		const client = await db.connect();
 		try {
 			const answerIsExist = await db.userAnswerIsExist(client, ans.id);
@@ -159,18 +128,19 @@ export const answer = createAction(
 			await db.disconnect(client);
 		}
 	},
-	["AUTH_ERROR"],
 );
 
-export const getResult = createAction(
-	async (quizId: number) => {
-		const session = await getSession();
-		if (!session.isLogged) {
-			throw new AuthError();
-		}
-
-		const result = db.getResult(null, session.userId, quizId);
+export const getResult = createSafeAction(
+	async (quizId: number, session: SessionDataLogged) => {
+		const result = await db.getResult(null, session.userId, quizId);
 		return result;
 	},
-	["AUTH_ERROR"],
+);
+
+export const getQuiz = createSafeAction(
+	async (quizId: number, session: SessionDataLogged) => {
+		const quiz = await db.getQuiz(null, quizId);
+		return quiz;
+	},
+	["NOT_FOUND"],
 );

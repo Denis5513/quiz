@@ -11,12 +11,7 @@ export default async function Page() {
 	return (
 		<div>
 			<h1>Это страница премиума</h1>
-			<p>
-				{session.isPro
-					? "Вы премиум пользователь"
-					: "Вы пока не премиум пользователь"}
-			</p>
-			<ChangePremForm isPro={session.isPro}></ChangePremForm>
+			<p>Тут пока ничего нет</p>
 		</div>
 	);
 }

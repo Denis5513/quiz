@@ -1,1 +1,65 @@
-/* @import "tailwindcss"; */
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --font-noto-sans: "Noto Sans", sans-serif;
+  --font-open-sans: "Open Sans", sans-serif;
+}
+
+.font-noto-sans {
+  font-family: var(--font-noto-sans);
+}
+.font-open-sans {
+  font-family: var(--font-open-sans);
+}
+.font-inter {
+  font-family: var(--font-inter);
+}
+
+@theme {
+  --color-main: #5856d6;
+  --color-hover: rgb(70, 70, 200);
+  --color-secondary: rgba(88, 86, 214, 0.5);
+  --color-main-red: #ef4444;
+  --color-secondary-red: #ffdad7;
+  --color-error-red: #fef2f2;
+  --color-main-green: #34c759;
+  --color-secondary-green: #bbf7d0;
+  --color-main-bg: #e6ebff;
+  --color-form-main: white;
+  --color-form-secondary: #cbd5e1;
+  --color-black-secondary: #8c8c8c;
+  --color-footer-bg: #f3f3f3;
+  --color-secondary-text: #6b7280;
+}
+
+@theme {
+  --breakpoint-3xl: 1920px;
+  --breakpoint-2xl: 1680px;
+  --breakpoint-lg: 1000px;
+}
+
+@layer utilities {
+  .pl-page {
+    @apply pl-[25px] lg:pl-[50px] 3xl:pl-[100px];
+  }
+
+  .pr-page {
+    @apply pr-[25px] lg:pr-[50px] 3xl:pr-[100px];
+  }
+
+  .px-page {
+    @apply px-[25px] lg:px-[50px] 3xl:px-[100px];
+  }
+
+  .translate-pl-cancel {
+    @apply translate-x-[-25px] lg:translate-x-[-50px] 3xl:translate-x-[-100px];
+  }
+
+  .translate-pr-cancel {
+    @apply translate-x-[25px] lg:translate-x-[50px] 3xl:translate-x-[100px];
+  }
+}

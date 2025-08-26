@@ -3,7 +3,7 @@ import { ErrorTypes } from "./error";
 
 export interface BadActionReturn {
 	success: false;
-	error: ErrorTypes;
+	error: ErrorTypes | (string & {});
 }
 
 export interface GoodActionReturn<RT> {
