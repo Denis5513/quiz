@@ -60,7 +60,7 @@ export function AuthPageInfo({ children }: { children?: React.ReactNode }) {
 
 	return (
 		<div
-			className={`max-w-[1700px] flex flex-col gap-[100px] justify-between relative isolate
+			className={`w-full flex flex-col gap-[100px] justify-between relative isolate
 						2xl:flex-row 2xl:gap-[50px] 2xl:items-center`}
 		>
 			<div className={`relative h-full`}>
@@ -99,7 +99,7 @@ export function AuthPageInfo({ children }: { children?: React.ReactNode }) {
 			</div>
 
 			<div
-				className={`mb-[100px]
+				className={`mb-[100px] grow-1
 							2xl:mb-0`}
 			>
 				{children}

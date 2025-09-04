@@ -35,7 +35,7 @@ export function AuthForm(props: AuthFormProps) {
 		<form
 			action={formAction}
 			className={
-				"w-[500px] mh-[410px] mx-auto px-[32px] pt-[40px] pb-[60px] bg-form-main border-form-secondary border-[1px] rounded-[8px] shadow-xl " +
+				"max-w-[500px] mh-[410px] mx-auto px-[32px] pt-[40px] pb-[60px] bg-form-main border-form-secondary border-[1px] rounded-[8px] shadow-xl " +
 				(props.className ?? "")
 			}
 		>
