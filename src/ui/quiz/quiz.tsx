@@ -90,7 +90,10 @@ function QuestionQuizForm({
 				{quiz.question?.question}
 			</h2>
 
-			<div className="flex flex-wrap gap-[12px]">
+			<div
+				className={`flex flex-col gap-[12px]
+							 sm:flex-wrap sm:flex-row`}
+			>
 				{quiz.question?.options.map((option, id) => (
 					<AnswerOption
 						key={id}
@@ -107,12 +110,16 @@ function QuestionQuizForm({
 								? quiz.answerInfo.isCorrect
 								: null
 						}
-						className="shrink-0 grow-1"
+						className={`shrink-0 grow-1
+									sm:w-[339px]`}
 					/>
 				))}
 			</div>
 
-			<div className="flex items-center justify-between mt-[147px]">
+			<div
+				className={`flex flex-col items-center justify-around gap-[10px] mt-[147px] 
+							sm:flex-row sm:justify-between`}
+			>
 				<p className="text-[20px] text-black-secondary font-inter font-bold">
 					Вопрос: {quiz.questionInfo.currentQuestion + 1}/
 					{quiz.questionInfo.questionsNumber}
@@ -172,7 +179,7 @@ function ResultQuizForm({
 				Вы ответили правильно на {right} из {all} вопросов.
 			</p>
 
-			<div className="mt-[20px] w-full flex items-center justify-around">
+			<div className="mt-[20px] w-full flex flex-wrap items-center justify-around gap-[10px]">
 				<Button
 					disabled={quiz.isPending}
 					onClick={() => redirect(urls.home)}

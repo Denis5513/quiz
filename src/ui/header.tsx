@@ -17,7 +17,7 @@ export default async function Header({ className }: { className?: string }) {
 				(className ?? "")
 			}
 		>
-			<p className="text-main font-semibold text-[28px] mr-[140px]">
+			<p className="text-main font-semibold text-[28px] basis-[296px]">
 				QuizMaster
 			</p>
 

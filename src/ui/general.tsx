@@ -99,7 +99,7 @@ export function AuthPageInfo({ children }: { children?: React.ReactNode }) {
 			</div>
 
 			<div
-				className={`mb-[100px] grow-1
+				className={`mb-[100px]
 							2xl:mb-0`}
 			>
 				{children}
@@ -149,8 +149,8 @@ export function QuizPreviewItem({
 	return (
 		<Link
 			className={
-				`flex flex-col grow min-w-[400px] h-[340px] p-[24px] bg-main-bg 
-				 lg:grow-0 w-[400px] ` + (className ?? "")
+				`w-full flex flex-col grow h-[340px] p-[24px] bg-main-bg 
+				 lg:grow-0 lg:w-[400px] ` + (className ?? "")
 			}
 			href={`/quizzes/${quiz.id}`}
 		>
@@ -197,7 +197,7 @@ export function AnswerOption({
 	return (
 		<label
 			className={
-				`flex gap-[14px] items-center w-[339px] h-[55px] rounded-[8px] ${answer !== null ? (answer ? "bg-secondary-green" : "bg-secondary-red") : "bg-white"} ` +
+				`flex gap-[14px] items-center h-[55px] rounded-[8px] ${answer !== null ? (answer ? "bg-secondary-green" : "bg-secondary-red") : "bg-white"} ` +
 				(className ?? "")
 			}
 		>

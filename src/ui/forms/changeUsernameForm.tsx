@@ -50,11 +50,11 @@ export default function ChangeUsernameForm({
 		<form action={formAction}>
 			<RoundedVioletBlock
 				className={
-					`w-[360px] h-[460px] p-[32px] flex flex-col items-center ` +
+					`max-w-[360px] h-[460px] p-[32px] flex flex-col items-center ` +
 					(className ?? "")
 				}
 			>
-				<h1 className="text-[24px] font-bold font-inter">
+				<h1 className="text-[24px] text-center font-bold font-inter">
 					Ваш профиль
 				</h1>
 
