@@ -26,10 +26,14 @@ export default function RegisterForm() {
 			submitButtonTitle={"Зарегистрироваться"}
 			action={createUser}
 			processActionResult={processActionResult}
+			id="register-form"
 		>
 			<p className="text-[16px] my-[20px]">
 				Уже есть аккаунт?{" "}
-				<Link href={urls.login} className="text-main cursor-pointer">
+				<Link
+					href={urls.login + "#login-form"}
+					className="text-main cursor-pointer"
+				>
 					Вход
 				</Link>
 			</p>

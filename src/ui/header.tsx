@@ -28,7 +28,10 @@ export default async function Header({ className }: { className?: string }) {
 				></SideBar>
 			) : (
 				<div className="ml-auto">
-					<Link href={urls.login} className={headerTextStyle}>
+					<Link
+						href={urls.login + "#login-form"}
+						className={headerTextStyle}
+					>
 						Войти
 					</Link>
 				</div>

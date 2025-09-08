@@ -9,6 +9,10 @@
   --font-open-sans: "Open Sans", sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .font-noto-sans {
   font-family: var(--font-noto-sans);
 }

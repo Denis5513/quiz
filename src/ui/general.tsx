@@ -99,7 +99,7 @@ export function AuthPageInfo({ children }: { children?: React.ReactNode }) {
 			</div>
 
 			<div
-				className={`mb-[100px]
+				className={`mb-[100px] grow-1
 							2xl:mb-0`}
 			>
 				{children}

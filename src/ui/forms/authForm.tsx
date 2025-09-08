@@ -14,6 +14,7 @@ interface AuthFormProps {
 		res: ActionReturn<void>,
 		setError: (err: string | null) => void,
 	) => void;
+	id?: string;
 }
 
 export function AuthForm(props: AuthFormProps) {
@@ -38,6 +39,7 @@ export function AuthForm(props: AuthFormProps) {
 				"max-w-[500px] mh-[410px] mx-auto px-[32px] pt-[40px] pb-[60px] bg-form-main border-form-secondary border-[1px] rounded-[8px] shadow-xl " +
 				(props.className ?? "")
 			}
+			id={props.id}
 		>
 			<h2 className="font-noto-sans text-[32px] leanding-[32px] font-bold">
 				{props.title}

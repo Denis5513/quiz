@@ -27,10 +27,14 @@ export default function LoginForm({ className }: { className?: string }) {
 			submitButtonTitle="Войти"
 			processActionResult={processActionResult}
 			action={login}
+			id="login-form"
 		>
 			<p className="text-[16px] my-[20px]">
 				Нет аккаунта?{" "}
-				<Link href={urls.register} className="text-main cursor-pointer">
+				<Link
+					href={urls.register + "#register-form"}
+					className="text-main cursor-pointer"
+				>
 					Регистрация
 				</Link>
 			</p>
